@@ -1,10 +1,34 @@
 const http = require('http');
-const url = require('url');
+const fs = require('fs');
 
 http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
-    const path = req.url;
+    let path = req.url;
+    let fileName;
+    switch(path) {
+        case '/':
+            fileName = './index.html';
+            break;
+
+        case '/about':
+            fileName = './about.html';
+            break;
+
+        case '/contact-me':
+            fileName = './contact-me.html';
+            break;
+
+        default:
+            fileName = './404.html';
+    }
     
-    res.end(path);
+    fs.readFile(fileName, (err, content) => {
+        if(err) {
+            console.error(err);
+        }
+        else {
+            res.end(content, 'utf8');
+        }
+    })
 }).listen(8080);
