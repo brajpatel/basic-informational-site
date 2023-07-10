@@ -1,12 +1,10 @@
 const http = require('http');
-const fs = require('fs');
+const url = require('url');
 
-const server = https.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
-    res.end('<h1>Hello, World</h1>');
-})
+http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/html'});
 
-server.listen(port, () => {
-    console.log(`Server is running at port ${port}`);
-})
+    const path = req.url;
+    
+    res.end(path);
+}).listen(8080);
